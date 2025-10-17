@@ -1,3 +1,3 @@
 module.exports.index = (req, res) => {
-  res.render('client/pages/products/index.pug', { title: 'Sản phẩm' });
+  res.render('client/pages/products/index.pug', { pageTitle: 'Sản phẩm' });
 }

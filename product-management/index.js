@@ -1,7 +1,8 @@
 const express = require('express')
+require('dotenv').config();
 const route = require('./routes/client/indexroute');
 const app = express()
-const port = 6969
+const port = process.env.PORT;
 
 
 app.set('views', './views');
