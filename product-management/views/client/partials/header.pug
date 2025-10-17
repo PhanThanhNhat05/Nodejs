@@ -1,1 +1,34 @@
-header Header 
+//- header.site-header
+//- 	.container
+//- 		.brand
+//- 			a(href='/')
+//- 				img.logo(src='/images/tsx.jpg', alt='Logo')
+//- 				span.site-title
+//- 		nav.main-nav(role='navigation')
+//- 			ul.nav-list
+//- 				li: a(href='/') Home
+//- 				li: a(href='/products') Products
+//- 				li: a(href='/about') About
+//- 				li: a(href='/contact') Contact
+//- 		.header-actions
+//- 			form.search(action='/products', method='get', role='search')
+//- 				input(type='search', name='q', placeholder='Search products...')
+//- 				button(type='submit') Search
+//- 			a.btn.login(href='/login') Login
+//- 			a.btn.cart(href='/cart') Cart
+//- 		button.mobile-toggle(type='button', aria-label='Toggle menu')
+
+header.header 
+  .container 
+    .row.align-items-center 
+        .col-3 
+           .inner-logo 
+                a(href='/') 
+                    img.logo(src='/images/tsx.jpg', alt='Logo')
+        .col-9 
+           .inner-menu 
+                ul 
+                    li 
+                       a(href='/') Home
+                    li 
+                       a(href='/products') Products

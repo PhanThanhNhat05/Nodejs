@@ -1,8 +1,12 @@
 const express = require('express')
 require('dotenv').config();
+const database = require('./config/database');
 const route = require('./routes/client/indexroute');
 const app = express()
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
+
+database.connect();
+
 
 
 app.set('views', './views');
