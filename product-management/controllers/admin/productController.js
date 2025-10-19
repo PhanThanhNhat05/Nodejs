@@ -1,13 +1,33 @@
 //[GET] admin/products
 const Product = require('../../models/productModeDB');
 module.exports.index = async (req, res) => {
-    const products = await Product.find({
+    console.log(req.query.status)
+    let filterStatus = [
+        { name: "Tất cả", value: "", class: "" },
+        { name: "Hoạt Động", value: "active", class: "" },
+        { name: "Ngừng Hoạt Động", value: "inactive", class: "" }
+    ];
+    if(req.query.status){
+          const index = filterStatus.findIndex(f => f.value === req.query.status);
+          filterStatus[index].class = "active";
+    } else {
+        const index = filterStatus.findIndex(f => f.value === "");
+          filterStatus[index].class = "active";
+
+    }
+    
+    let find = {
         deleted: false
-    });
-    console.log(products);
-//   const sampleProducts = [
-//     { _id: '1', title: 'Sản phẩm 1', price: 100, status: 'active', thumbnail: '/images/ip.jpg' },
-//     { _id: '2', title: 'Sản phẩm 2', price: 150, status: 'inactive', thumbnail: '/images/ip.jpg' }
-//   ];
-  res.render('admin/pages/products/index', { pageTitle: 'Quản Lý Sản Phẩm', products: products });
+    }
+    if(req.query.status){
+        find.status = req.query.status
+    }
+    const products = await Product.find({...find});
+    // console.log(products);
+
+  res.render('admin/pages/products/index', { 
+    pageTitle: 'Quản Lý Sản Phẩm', 
+    products: products, 
+    filterStatus: filterStatus 
+  });
 }
