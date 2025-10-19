@@ -1,0 +1,35 @@
+extends ../../layouts/default.pug
+
+block main
+  .admin-products
+    h1.mb-3 Trang Danh Sách Sản Phẩm
+    table.table-admin
+      thead
+        tr
+          th.stt STT
+          th.thumb Hình ảnh
+          th.title Tiêu đề
+          th.price Giá
+          th.status Trạng thái
+          th.actions Hành động
+      tbody
+        if !products || products.length === 0
+          tr
+            td(colspan='6') Chưa có sản phẩm
+        else
+          each product, idx in products
+            tr
+              td.stt #{idx + 1}
+              td
+                // image cell (match screenshot attributes)
+                img(src=product.thumbnail || '/images/ip.jpg', alt=product.title, width='100px', height='auto')
+              td #{product.title}
+              td #{product.price}$
+              td
+                if product.status === 'active'
+                  a(href='#', class='badge badge-success') Hoạt động
+                else
+                  a(href='#', class='badge badge-danger') Dừng hoạt động
+              td
+                a(href=`/admin/products/edit/${product._id}`, class='btn btn-warning btn-sm') Sửa
+                a(href=`/admin/products/delete/${product._id}`, class='btn btn-danger btn-sm ml-1') Xóa

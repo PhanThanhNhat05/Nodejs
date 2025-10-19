@@ -49,6 +49,35 @@
 }
 .site-header.open .header-actions .search { display:flex }
 
+/* Admin products table */
+.admin-products { background: #fff; padding:14px; border-radius:10px; box-shadow: 0 6px 20px rgba(16,24,40,0.04) }
+.admin-products h1 { margin:0 0 12px 0; font-size:22px; color:#111 }
+.table-admin { width:100%; border-collapse:collapse; font-size:14px; table-layout:fixed }
+.table-admin thead th { text-align:left; padding:12px 14px; border-bottom:1px solid #eef2f7; color:#374151; font-weight:600 }
+.table-admin tbody td { padding:12px 14px; vertical-align:middle; border-bottom:1px solid #f3f4f6; color:#111 }
+.table-admin .stt { width:48px; text-align:center; color:#6b7280 }
+.table-admin .thumb { width:150px }
+.thumb-box { width:120px; height:72px; border-radius:8px; overflow:hidden; display:flex; align-items:center; justify-content:center; background:#fbfcfd; border:1px solid #f1f5f9 }
+.thumb-box img { max-width:120px; max-height:72px; object-fit:cover; display:block }
+.table-admin .title { text-align:left; padding-left:6px; font-size:15px }
+.table-admin .price { width:120px; text-align:right; color:#0f172a; font-weight:700 }
+.table-admin .status { width:160px; text-align:center }
+.table-admin .actions { width:170px; text-align:right }
+.badge { display:inline-block; padding:6px 10px; border-radius:8px; font-weight:700; font-size:13px }
+.badge-active { background:#d1fae5; color:#065f46 }
+.badge-inactive { background:#fff2f2; color:#9f1239; border:1px solid #fee2e2 }
+.btn { padding:8px 10px; border-radius:6px; border:0; cursor:pointer; font-weight:700; font-size:13px }
+.btn-edit { background:#f59e0b; color:#1f2937; margin-left:8px }
+.btn-delete { background:#ef4444; color:white; margin-left:8px }
+.inline { display:inline }
+
+/* Small devices: stack actions */
+@media (max-width:600px){
+    .table-admin thead { display:none }
+    .table-admin tbody td { display:block; width:100% }
+    .table-admin tbody tr { display:block; margin-bottom:12px; border:1px solid #f1f5f9; padding:10px; border-radius:8px }
+    .table-admin .actions { text-align:left; margin-top:8px }
+}
 /* Products page styles */
 .box-head { 
     padding: 20px 0; 
