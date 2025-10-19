@@ -1,8 +1,9 @@
+//GET] /products
 const Product = require('../../models/productModeDB');
 
 module.exports.index = async (req, res) => {
   const products = await Product.find({
-    // status: 'active',
+    status: 'active',
     deleted: false
   });
 

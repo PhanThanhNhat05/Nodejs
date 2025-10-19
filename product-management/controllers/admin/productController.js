@@ -1,3 +1,4 @@
+//[GET] admin/products
 module.exports.index = (req, res) => {
   const sampleProducts = [
     { _id: '1', title: 'Sản phẩm 1', price: 100, status: 'active', thumbnail: '/images/ip.jpg' },
