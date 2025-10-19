@@ -7,7 +7,8 @@ const productSchema = new mongoose.Schema({
   price: Number,
   discountPercentage: Number,
   stock: Number,
-  thumnail: String,
+  // support both spellings in case DB uses one or the other
+  thumbnail: String,
   status: String,
   position: Number,
   deleted: Boolean,
