@@ -7,7 +7,7 @@ module.exports.index = async (req, res) => {
 
   //tinh nang loc status
   const filterStatus = filterStatusHelper(req.query);
-  console.log(filterStatus);
+  // console.log(filterStatus);
 
   let find = {
     deleted: false,
@@ -18,20 +18,39 @@ module.exports.index = async (req, res) => {
 
   //tinh nang tim kiem
   const objSearch = searchgHelper(req.query);
-  console.log(objSearch);
+  // console.log(objSearch);
 
   if (objSearch.regex) {
     find.title = objSearch.regex;
   }
-  const products = await Product.find({
-    ...find
-  });
-  // console.log(products);
+  
+
+  //phân trang
+   let objPanagination = {
+    currentPage: 1,
+    limitItem: 4,
+     
+   }
+   if(req.query.page){
+    objPanagination.currentPage = parseInt(req.query.page);
+   }
+   objPanagination.skip = (objPanagination.currentPage - 1) * objPanagination.limitItem;
+   
+   //tong so san pham
+   const countProducts = await Product.countDocuments({...find});
+   const totalPage = Math.ceil(countProducts / objPanagination.limitItem);
+   objPanagination.totalPage = totalPage;
+   console.log(totalPage);
+   
+  //end phân trang
+
+  const products = await Product.find({...find}).limit(objPanagination.limitItem).skip(objPanagination.skip);
 
   res.render('admin/pages/products/index', {
     pageTitle: 'Quản Lý Sản Phẩm',
     products: products,
     filterStatus: filterStatus,
-    keyword: objSearch.keyword
+    keyword: objSearch.keyword,
+    pagination: objPanagination
   });
 }
