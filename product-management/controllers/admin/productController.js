@@ -2,6 +2,7 @@
 const Product = require('../../models/productModeDB');
 const filterStatusHelper = require('../../helpers/filterStatus');
 const searchgHelper = require('../../helpers/search');
+const paginationHelper = require('../../helpers/pagination');
 module.exports.index = async (req, res) => {
   console.log(req.query.status)
 
@@ -23,28 +24,24 @@ module.exports.index = async (req, res) => {
   if (objSearch.regex) {
     find.title = objSearch.regex;
   }
-  
+
 
   //phân trang
-   let objPanagination = {
-    currentPage: 1,
-    limitItem: 4,
-     
-   }
-   if(req.query.page){
-    objPanagination.currentPage = parseInt(req.query.page);
-   }
-   objPanagination.skip = (objPanagination.currentPage - 1) * objPanagination.limitItem;
-   
-   //tong so san pham
-   const countProducts = await Product.countDocuments({...find});
-   const totalPage = Math.ceil(countProducts / objPanagination.limitItem);
-   objPanagination.totalPage = totalPage;
-   console.log(totalPage);
-   
+  const countProducts = await Product.countDocuments({
+    ...find
+  });
+  let objPanagination = paginationHelper({
+      currentPage: 1,
+      limitItem: 4,
+    },
+    req.query,
+    countProducts
+  );
   //end phân trang
 
-  const products = await Product.find({...find}).limit(objPanagination.limitItem).skip(objPanagination.skip);
+  const products = await Product.find({
+    ...find
+  }).limit(objPanagination.limitItem).skip(objPanagination.skip);
 
   res.render('admin/pages/products/index', {
     pageTitle: 'Quản Lý Sản Phẩm',
