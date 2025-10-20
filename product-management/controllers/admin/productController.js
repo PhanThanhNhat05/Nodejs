@@ -1,29 +1,21 @@
 //[GET] admin/products
 const Product = require('../../models/productModeDB');
+const filterStatusHelper = require('../../helpers/filterStatus');
 module.exports.index = async (req, res) => {
     console.log(req.query.status)
-    let filterStatus = [
-        { name: "Tất cả", value: "", class: "" },
-        { name: "Hoạt Động", value: "active", class: "" },
-        { name: "Ngừng Hoạt Động", value: "inactive", class: "" }
-    ];
-    if(req.query.status){
-          const index = filterStatus.findIndex(f => f.value === req.query.status);
-          filterStatus[index].class = "active";
-    } else {
-        const index = filterStatus.findIndex(f => f.value === "");
-          filterStatus[index].class = "active";
 
-    }
+    //tinh nang loc status
+    const filterStatus =  filterStatusHelper(req.query);
+    console.log(filterStatus);
     
     let find = {
         deleted: false, 
     }
-    if(req.query.status){
+    if (req.query.status) {
         find.status = req.query.status
     }
 
-//tinh nang tim kiem
+   //tinh nang tim kiem
     let keyword = "";
     if(req.query.keyword){
       keyword = req.query.keyword;
