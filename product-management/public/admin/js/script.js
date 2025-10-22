@@ -56,3 +56,69 @@ if(buttonPagination.length > 0) {
     });
 }
 //end pagination
+
+
+//Checkbox multi
+const checkboxMulti = document.querySelector("[checkbox-multi]")
+if(checkboxMulti) {
+    const inputCheckAll = checkboxMulti.querySelector("input[name='checkall']")
+    const inputId = checkboxMulti.querySelectorAll("input[name='id']")
+    // console.log(inputCheckAll)
+    // console.log(inputId)
+
+    inputCheckAll.addEventListener("click", () => {
+        //  console.log(inputCheckAll.checked)
+         if(inputCheckAll.checked) {
+            inputId.forEach(input => {
+                input.checked = true;
+            });            
+         }
+         else {
+            inputId.forEach(input => {
+                input.checked = false;
+            });
+         }
+    });
+    inputId.forEach(input => {
+        input.addEventListener("click", () => {
+            const countChecked = checkboxMulti.querySelectorAll("input[name='id']:checked").length
+            // console.log(countChecked)
+            // console.log(inputId.length)
+            if(countChecked == inputId.length) {
+                inputCheckAll.checked = true
+            }
+            else {
+                inputCheckAll.checked = false;
+            }
+        })
+    })
+}
+//End checkbox multi
+
+//Form change multi
+const formChangeMulti = document.querySelector("[form-change-multi]");
+if(formChangeMulti) {
+    // console.log(formChangeMulti)
+    formChangeMulti.addEventListener("submit", (e) =>  {
+     e.preventDefault();
+     
+     const checkboxMulti = document.querySelector("[checkbox-multi]")
+
+      const inputChecked = checkboxMulti.querySelectorAll("input[name='id']:checked");
+    //   console.log(inputChecked)
+      if(inputChecked.length > 0) {
+         let ids = [];
+         const inputIds = formChangeMulti.querySelector("input[name='ids']")
+         inputChecked.forEach(input => {
+            const id = input.value;
+            ids.push(id)
+         })
+         inputIds.value = ids.join(", ")
+         formChangeMulti.submit();
+      }
+      else {
+        alert("Vui long chon it nhat 1 san pham")
+      }
+    })
+}
+//End form change multi

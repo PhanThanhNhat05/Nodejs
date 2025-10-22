@@ -1,9 +1,9 @@
-//[GET] admin/products
+
 const Product = require('../../models/productModeDB');
 const filterStatusHelper = require('../../helpers/filterStatus');
 const searchgHelper = require('../../helpers/search');
 const paginationHelper = require('../../helpers/pagination');
-//[GET] admin/products
+// [GET] admin/products
 module.exports.index = async (req, res) => {
   console.log(req.query.status)
 
@@ -53,7 +53,7 @@ module.exports.index = async (req, res) => {
   });
 }
 
-//router.get('/change-status/:status/:id', controller.changeStatus);
+// [PATCH] router.patch('/change-status/:status/:id', controller.changeStatus);
 module.exports.changeStatus = async (req, res) => {
   console.log(req.params)
   const status = req.params.status;
@@ -63,4 +63,22 @@ module.exports.changeStatus = async (req, res) => {
 
   res.redirect("/admin/products")
   
+}
+
+//[PATCH] router.patch('/change-multi', controller.changeStatus);
+module.exports.changeMulti = async (req, res) => {
+   const type = req.body.type
+   const ids = req.body.ids.split(", ")
+   
+   switch (type) {
+    case "active":
+      await Product.updateMany({_id: { $in: ids}}, {status: "active"})
+      break;
+    case "inactive":
+      await Product.updateMany({_id: { $in: ids}}, {status: "inactive"})
+      break;
+    default:
+      break;
+   }
+   res.redirect("/admin/products");
 }

@@ -2,6 +2,9 @@ extends ../../layouts/default.pug
 include ../../mixins/filter-status.pug
 include ../../mixins/search.pug
 include ../../mixins/pagination.pug
+include ../../mixins/form-change-multi.pug
+
+
 block main
     h1 Danh Sách Sản Phẩm Quản Trị Viên
 
@@ -13,11 +16,24 @@ block main
                     +filter-status(filterStatus)
 
                 .col-6
-                    +search(keyword)
+                    +search(keyword)                   
+                    //- +form-change-multi(`${prefixAdmin}/products/change-multi?_method=PATCH`)
+                    form(action=`${prefixAdmin}/products/change-multi?_method=PATCH` method="POST" form-change-multi)
+                        .d-flex.align-items-start
+                            .form-group
+                                select(name="type" class="form-control")
+                                    option(value="active") Hoạt động
+                                    option(value="inactive") Dừng hoạt động
+                            .form-group
+                                input(type="text" name="ids" value="" class="form-control d-none")
+                            button(type="submit" class="btn btn-primary") Áp dụng
+
     .admin-products
-        table.table-admin
+        table(class=".table-admin" checkbox-multi)
             thead
                 tr
+                    th
+                        input(type="checkbox" name="checkall")
                     th.stt STT
                     th.thumb Hình ảnh
                     th.title Tiêu đề
@@ -27,10 +43,12 @@ block main
             tbody
                 if !products || products.length === 0
                     tr
-                        td(colspan='6') Chưa có sản phẩm
+                        td(colspan='7') Chưa có sản phẩm
                 else
                     each product, idx in products
                         tr
+                            td
+                                input(type="checkbox" name="id" value=product.id)
                             td.stt #{idx + 1}
                             td
                                 img(src=product.thumbnail, alt=product.title, width='100px', height='auto')
@@ -38,16 +56,25 @@ block main
                             td #{product.price}$
                             td
                                 if product.status === 'active'
-                                    a(href='javascript:;'
-                                      data-status=product.status
-                                      data-id = product.id
-                                      class='badge badge-success' 
-                                      button-change-status) Hoạt động
+                                    a(
+                                        href='javascript:;'
+                                        data-status=product.status
+                                        data-id=product.id
+                                        class='badge badge-success'
+                                        button-change-status
+                                    ) Hoạt động
                                 else
-                                    a(href='javascript:;', class='badge badge-danger', button-change-status, data-status=product.status data-id = product.id) Dừng hoạt động
+                                    a(
+                                        href='javascript:;'
+                                        data-status=product.status
+                                        data-id=product.id
+                                        class='badge badge-danger'
+                                        button-change-status
+                                    ) Dừng hoạt động
                             td
                                 a(href=`/admin/products/edit/${product._id}`, class='btn btn-warning btn-sm') Sửa
                                 a(href=`/admin/products/delete/${product._id}`, class='btn btn-danger btn-sm') Xóa
+
     +pagination(pagination)
 
     form(
@@ -56,5 +83,5 @@ block main
         id="form-change-status"
         data-path=`/admin/products/change-status`
     )
-    
-    script(src="/admin/js/product.js") 
+
+    script(src="/admin/js/product.js")
