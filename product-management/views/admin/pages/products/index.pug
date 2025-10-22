@@ -17,17 +17,8 @@ block main
 
                 .col-6
                     +search(keyword)                   
-                    //- +form-change-multi(`${prefixAdmin}/products/change-multi?_method=PATCH`)
-                    form(action=`${prefixAdmin}/products/change-multi?_method=PATCH` method="POST" form-change-multi)
-                        .d-flex.align-items-start
-                            .form-group
-                                select(name="type" class="form-control")
-                                    option(value="active") Hoạt động
-                                    option(value="inactive") Dừng hoạt động
-                            .form-group
-                                input(type="text" name="ids" value="" class="form-control d-none")
-                            button(type="submit" class="btn btn-primary") Áp dụng
-
+                    +formChangeMulti(`${prefixAdmin}/products/change-multi?_method=PATCH`)
+                   
     .admin-products
         table(class=".table-admin" checkbox-multi)
             thead
