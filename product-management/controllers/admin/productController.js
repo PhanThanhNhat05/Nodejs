@@ -3,6 +3,7 @@ const Product = require('../../models/productModeDB');
 const filterStatusHelper = require('../../helpers/filterStatus');
 const searchgHelper = require('../../helpers/search');
 const paginationHelper = require('../../helpers/pagination');
+//[GET] admin/products
 module.exports.index = async (req, res) => {
   console.log(req.query.status)
 
@@ -50,4 +51,16 @@ module.exports.index = async (req, res) => {
     keyword: objSearch.keyword,
     pagination: objPanagination
   });
+}
+
+//router.get('/change-status/:status/:id', controller.changeStatus);
+module.exports.changeStatus = async (req, res) => {
+  console.log(req.params)
+  const status = req.params.status;
+  const id = req.params.id;
+
+  await Product.updateOne({_id: id}, {status: status})
+
+  res.redirect("/admin/products")
+  
 }
