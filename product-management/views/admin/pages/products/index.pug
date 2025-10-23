@@ -29,6 +29,7 @@ block main
                     th.thumb Hình ảnh
                     th.title Tiêu đề
                     th.price Giá
+                    th.position Vị trí sản phẩm
                     th.status Trạng thái
                     th.actions Hành động
             tbody
@@ -45,6 +46,14 @@ block main
                                 img(src=product.thumbnail, alt=product.title, width='100px', height='auto')
                             td #{product.title}
                             td #{product.price}$
+                            td 
+                                input(
+                                    type="number"
+                                    value=product.position
+                                    style="width: 60px"
+                                    min="1"
+                                    name="position"
+                                )
                             td
                                 if product.status === 'active'
                                     a(
