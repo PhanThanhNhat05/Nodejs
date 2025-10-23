@@ -81,6 +81,7 @@ module.exports.changeMulti = async (req, res) => {
       break;
     case "delete-all":
       await Product.updateMany({_id: { $in: ids}}, {deleted: true, deletedAt: new Date()})
+      req.flash("success", `da xoa thanh cong ${ids.lenght} sp`)
       break;
     case "change-position":
       console.log(ids)
@@ -107,5 +108,6 @@ module.exports.deleteItem = async (req, res) => {
   const id = req.params.id;
   // await Product.deleteOne({_id: id}
   await Product.updateOne({_id: id}, {deleted: true , deletedAt : new Date()});
+  req.flash("success", `da xoa thanh cong sp`)
    res.redirect("/admin/products");
 }
