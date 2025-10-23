@@ -26,3 +26,24 @@ if(btnChangeStatus.length > 0) {
     });
 }
 //end change status
+
+//delete item
+const btnsDelete = document.querySelectorAll("[button-delete]") 
+if(btnsDelete.length > 0) {
+    const formDeleteItem = document.querySelector("#form-delete-item")
+    const path = formDeleteItem.getAttribute("data-path")
+    btnsDelete.forEach(btn => {
+        btn.addEventListener("click", () =>  {
+
+            const isConfirm = confirm("ban co muon xoa san pham nay?");
+            if(isConfirm) {
+                const id = btn.getAttribute("data-id")
+                const action = `${path}/${id}?_method=DELETE`
+                console.log(action)
+                formDeleteItem.action = action;
+                formDeleteItem.submit();
+            }
+        });
+    });
+}
+//end delete item
