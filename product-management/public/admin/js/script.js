@@ -105,6 +105,18 @@ if(formChangeMulti) {
      const checkboxMulti = document.querySelector("[checkbox-multi]")
 
       const inputChecked = checkboxMulti.querySelectorAll("input[name='id']:checked");
+      // phat trien phan xoa nhieu san pham
+      const typeChange = e.target.elements.type.value
+      if(typeChange == "delete-all") {
+        const isConfirm = confirm("Ban co chac chan muon xoa tat ca san pham nay");
+        if(!isConfirm) {
+            return;
+        }
+        else {
+            
+        }
+      }
+      
     //   console.log(inputChecked)
       if(inputChecked.length > 0) {
          let ids = [];
