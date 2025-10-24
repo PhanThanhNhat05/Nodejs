@@ -156,3 +156,59 @@ if(showAlert) {
 
 }
 //End Show ALert
+
+// //Preview Uploads image
+// const uploadImage = document.querySelector("[upload-image]")
+// if(uploadImage) {
+//     const uploadImageInput = document.querySelector("[upload-image-input]")
+//     const uploadImagePreview = document.querySelector("[upload-image-preview]")
+
+//     uploadImageInput.addEventListener("change", (e) => {
+//            console.log(e)
+//            const file = e.target.files[0];
+//            if(file) {
+//             uploadImagePreview.src = URL.createObjectURL(file);
+//            }
+//     })
+// }
+// //End Preview Uploads image
+
+//Preview Uploads image
+const uploadImage = document.querySelector("[upload-image]")
+if(uploadImage) {
+    const uploadImageInput = document.querySelector("[upload-image-input]")
+    const uploadImagePreview = document.querySelector("[upload-image-preview]")
+    const uploadImageClose = document.querySelector("[upload-image-close]")
+
+    uploadImageInput.addEventListener("change", (e) => {
+        console.log(e)
+        const file = e.target.files[0];
+        if(file) {
+            uploadImagePreview.src = URL.createObjectURL(file);
+            
+            // Hiển thị ảnh preview
+            uploadImagePreview.style.display = "block";
+            
+            // Hiển thị nút xóa
+            if(uploadImageClose) {
+                uploadImageClose.style.display = "inline-block";
+            }
+        }
+    })
+
+    // Xử lý xóa ảnh
+    if(uploadImageClose) {
+        uploadImageClose.addEventListener("click", () => {
+            // Xóa ảnh preview
+            uploadImagePreview.src = "";
+            uploadImagePreview.style.display = "none";
+            
+            // Reset input file
+            uploadImageInput.value = "";
+            
+            // Ẩn nút xóa
+            uploadImageClose.style.display = "none";
+        })
+    }
+}
+//End Preview Uploads image
