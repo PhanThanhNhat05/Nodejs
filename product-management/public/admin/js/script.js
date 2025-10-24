@@ -195,17 +195,14 @@ if(uploadImage) {
             }
         }
     })
-
     // Xử lý xóa ảnh
     if(uploadImageClose) {
         uploadImageClose.addEventListener("click", () => {
             // Xóa ảnh preview
             uploadImagePreview.src = "";
-            uploadImagePreview.style.display = "none";
-            
+            uploadImagePreview.style.display = "none";       
             // Reset input file
-            uploadImageInput.value = "";
-            
+            uploadImageInput.value = "";          
             // Ẩn nút xóa
             uploadImageClose.style.display = "none";
         })
