@@ -147,3 +147,49 @@ module.exports.createPost = async (req, res) => {
 
      res.redirect(`${systemConfig.prefixAdmin}/products/`);
 }
+
+//[GET] admin/products/edit/:id
+module.exports.edit = async (req, res) => {
+  try {
+    // console.log(req.params.id)
+  const find = {
+    deleted : false,
+    _id: req.params.id
+  }
+  const product = await Product.findOne(find);
+  console.log(product)
+  
+     res.render("admin/pages/products/edit", {
+      pageTitle: "sua san pham",
+      product : product
+     })
+  } catch (error) {
+    req.flash("errorid", `Đường dẫn này không tồn tại`);
+    res.redirect(`${systemConfig.prefixAdmin}/products`)
+  }
+  
+}
+
+//[PATCH] admin/products/edit/:id
+module.exports.editPatch = async (req, res) => {
+
+  // console.log(req.body)
+  req.body.price = parseInt(req.body.price)
+  req.body.discountPercentage = parseInt(req.body.discountPercentage)
+  req.body.stock = parseInt(req.body.stock)
+  req.body.position = parseInt(req.body.position)
+  if(req.file) {
+  req.body.thumbnail = `/uploads/${req.file.filename}`
+  }
+  
+  try {
+    await Product.updateOne({_id: req.params.id}, req.body)
+    req.flash("success", `Cap nhat thanh cong`)
+  } catch (error) {
+     req.flash("error", `Cap nhat that bai`)
+  }
+
+     res.redirect(`${systemConfig.prefixAdmin}/products/edit/:id`);
+  
+   
+}
