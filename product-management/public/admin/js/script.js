@@ -184,11 +184,9 @@ if(uploadImage) {
         console.log(e)
         const file = e.target.files[0];
         if(file) {
-            uploadImagePreview.src = URL.createObjectURL(file);
-            
+            uploadImagePreview.src = URL.createObjectURL(file);       
             // Hiển thị ảnh preview
-            uploadImagePreview.style.display = "block";
-            
+            uploadImagePreview.style.display = "block";  
             // Hiển thị nút xóa
             if(uploadImageClose) {
                 uploadImageClose.style.display = "inline-block";

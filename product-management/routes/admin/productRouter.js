@@ -20,8 +20,7 @@ router.patch("/edit/:id",
     upload.single("thumbnail"),
     validate.createPost,
     controller.editPatch)
-
-
+router.get("/details/:id", controller.details)
 
 
 module.exports = router;

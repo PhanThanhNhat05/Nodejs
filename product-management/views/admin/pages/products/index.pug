@@ -79,12 +79,14 @@ block main
                                         button-change-status
                                     ) Dừng hoạt động
                             td
+                                a(href=`/admin/products/details/${product._id}`, class='btn btn-secondary btn-sm') Chi tiết
                                 a(href=`/admin/products/edit/${product._id}`, class='btn btn-warning btn-sm') Sửa
                                 button(href=`/admin/products/delete/${product._id}`, 
                                   class='btn btn-danger btn-sm'
                                   data-id=product.id
                                   button-delete
                                   ) Xóa
+                                
 
     +pagination(pagination)
 
