@@ -5,24 +5,20 @@ block main
     .container.my-3
         .row
             .col-12
-                .box-head
-                    +box-head(title="Product List")
+                +box-head("Danh sách sản phẩm")
 
         .row
-            each product in products
+            each item in products
                 .col-4.mb-3
-                    .product-item
+                    .product-item                   
                         .inner-image
-                            img(src=product.thumbnail, alt=product.title)
-                            .inner-content
-                                h3.inner-title #{product.title}
-                                .price-row
-                                    .inner-price-new #{product.priceNew}$
-                                    if product.price
-                                        .inner-price-old #{product.price}$
-                                if product.discountPercentage
-                                    .inner-discount -#{product.discountPercentage}%
-                            .card-footer
-                                a.btn.view(href=`/products/${product._id}`) Xem
-                                button.btn.add-cart(type='button', data-id=product._id) Thêm vào giỏ
-
+                            img(
+                                src=item.thumbnail
+                                alt=item.title
+                            )
+                        .inner-content
+                            h3.inner-title 
+                                a(href=`/products/${item.slug}`) #{item.title}
+                            .inner-price-new #{item.priceNew}$
+                            .inner-price-old #{item.price}$
+                            .inner-discount -#{item.discountPercentage}%

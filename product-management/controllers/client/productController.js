@@ -13,3 +13,25 @@ module.exports.index = async (req, res) => {
   });
   res.render('client/pages/products/index.pug', { pageTitle: 'Danh Sách Sản phẩm', products: newProducts });
 }
+
+//GET] /products/slug
+module.exports.detail = async (req, res) => {
+     try {
+    // console.log(req.params.id)
+  const find = {
+    deleted : false,
+    slug: req.params.slug,
+    status: "active"
+  };
+  const product = await Product.findOne(find);
+  console.log(product)
+  
+     res.render("client/pages/products/detail", {
+      pageTitle: product.title,
+      product : product
+     })
+  } catch (error) {
+    req.flash("errorid", `Đường dẫn này không tồn tại`);
+    res.redirect(`/products`)
+  }
+}
