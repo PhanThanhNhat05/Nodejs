@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const flash = require("express-flash");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
+const MongoStore = require('connect-mongo'); // ← THÊM
 
 require('dotenv').config();
 const database = require('./config/database');
@@ -19,7 +20,23 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // flash
 app.use(cookieParser('keyboard cat'));
-app.use(session({ cookie: { maxAge: 60000 } }));
+
+// ✅ SỬA SESSION - dùng MongoDB store
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGO_URL,
+    touchAfter: 24 * 3600
+  }),
+  cookie: { 
+    maxAge: 60000,
+    secure: process.env.NODE_ENV === 'production', // HTTPS only in production
+    httpOnly: true
+  }
+}));
+
 app.use(flash());
 
 app.set('views', `${__dirname}/views`);
