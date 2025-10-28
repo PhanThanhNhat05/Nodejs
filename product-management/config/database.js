@@ -1,29 +1,21 @@
 const mongoose = require('mongoose');
 module.exports.connect = async () => {
     const mongoUrl = process.env.MONGO_URL;
-    const isProduction = process.env.NODE_ENV === 'production';
 
-    // In production (Vercel), require MONGO_URL; otherwise skip connecting
-    if (isProduction && !mongoUrl) {
-        console.warn('MONGO_URL is not set. Skipping MongoDB connection in production.');
+    if (!mongoUrl) {
+        console.error('❌ MONGO_URL environment variable is not set!');
+        console.error('Please set MONGO_URL in Vercel environment variables');
         return;
     }
 
-    const resolvedUrl = mongoUrl || 'mongodb://127.0.0.1:27017/product-management';
-
     try {
-        await mongoose.connect(resolvedUrl, {
+        await mongoose.connect(mongoUrl, {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });
-        console.log('Connected to MongoDB');
+        console.log('✅ Connected to MongoDB successfully');
     } catch (error) {
-        console.error('MongoDB connection error:', error && error.message ? error.message : error);
-        if (isProduction) {
-            // In serverless prod, do not crash function; allow routes that don't need DB
-            return;
-        }
-        // In development, keep old behavior to surface issues
-        process.exit(1);
+        console.error('❌ MongoDB connection error:', error && error.message ? error.message : error);
+        // Không crash trong serverless nhưng vẫn log lỗi để debug
     }
 }
