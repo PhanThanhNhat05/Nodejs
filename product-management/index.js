@@ -14,6 +14,7 @@ const systemConfig = require("./config/system");
 
 database.connect();
 const app = express();
+app.set('trust proxy', 1);
 
 app.use(methodOverride("_method"));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -22,20 +23,27 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser('keyboard cat'));
 
 // ✅ SỬA SESSION - dùng MongoDB store
-app.use(session({
-  secret: 'keyboard cat',
+const hasMongoUrl = Boolean(process.env.MONGO_URL);
+const sessionOptions = {
+  secret: process.env.SESSION_SECRET || 'keyboard cat',
   resave: false,
   saveUninitialized: false,
-  store: MongoStore.create({
+  cookie: {
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+    sameSite: process.env.NODE_ENV === 'production' ? 'lax' : 'lax'
+  }
+};
+
+if (hasMongoUrl) {
+  sessionOptions.store = MongoStore.create({
     mongoUrl: process.env.MONGO_URL,
     touchAfter: 24 * 3600
-  }),
-  cookie: { 
-    maxAge: 60000,
-    secure: process.env.NODE_ENV === 'production', // HTTPS only in production
-    httpOnly: true
-  }
-}));
+  });
+}
+
+app.use(session(sessionOptions));
 
 app.use(flash());
 
