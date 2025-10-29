@@ -5,28 +5,19 @@ const paginationHelper = require('../../helpers/pagination');
 const systemConfig = require("../../config/system")
 // [GET] admin/products
 module.exports.index = async (req, res) => {
-  console.log(req.query.status)
-
-  //tinh nang loc status
+  // console.log(req.query.status)
   const filterStatus = filterStatusHelper(req.query);
-  // console.log(filterStatus);
-
   let find = {
     deleted: false,
   }
   if (req.query.status) {
     find.status = req.query.status
   }
-
   //tinh nang tim kiem
   const objSearch = searchgHelper(req.query);
-  // console.log(objSearch);
-
   if (objSearch.regex) {
     find.title = objSearch.regex;
   }
-
-
   //phân trang
   const countProducts = await Product.countDocuments({
     ...find
@@ -39,11 +30,20 @@ module.exports.index = async (req, res) => {
     countProducts
   );
   //end phân trang
+  //sort 
+  let sort = {}
+  
+  if (req.query.sortKey && req.query.sortValue) {
+    sort[req.query.sortKey] = req.query.sortValue;
+  } else {
+    sort.position = "desc"
+  }
 
+  //end sort
   const products = await Product.find({
     ...find
   }).sort({
-    position: "desc"
+    ...sort
   }).limit(objPanagination.limitItem).skip(objPanagination.skip);
 
   res.render('admin/pages/products/index', {
@@ -175,7 +175,7 @@ module.exports.createPost = async (req, res) => {
   // }
   // console.log(req.body)
 
-  
+
   const product = new Product(req.body);
   await product.save();
 
