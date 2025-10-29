@@ -58,11 +58,11 @@ app.locals.prefixAdmin = systemConfig.prefixAdmin;
 route(app);
 routeAdmin(app);
 
-// ✅ Nếu chạy local thì mở cổng
+
 if (require.main === module) {
   const port = process.env.PORT || 6969;
   app.listen(port, () => console.log(`Server running on port ${port}`));
 }
 
-// ✅ Nếu deploy lên Vercel thì export app
+
 module.exports = app;
