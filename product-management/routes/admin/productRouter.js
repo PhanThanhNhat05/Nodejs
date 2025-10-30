@@ -1,10 +1,7 @@
 const express = require('express');
 const multer = require('multer')
-
-
 // const storageMulter = require("../../helpers/storage-multer")
 // const upload = multer({ storage: storageMulter() })
-
 const upload = multer();
 
 const uploadCloud = require("../../middlewares/admin/uploadCloud.middleware")
