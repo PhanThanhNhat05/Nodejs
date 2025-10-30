@@ -1,5 +1,6 @@
 const express = require('express');
 const methodOverride = require("method-override");
+var path = require('path');
 const bodyParser = require("body-parser");
 const flash = require("express-flash");
 const cookieParser = require("cookie-parser");
@@ -43,6 +44,9 @@ if (hasMongoUrl) {
   });
 }
 
+//tinyMCE
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
+//end tunyMCE
 app.use(session(sessionOptions));
 
 app.use(flash());

@@ -18,6 +18,7 @@ module.exports.index = async (req, res) => {
   if (objSearch.regex) {
     find.title = objSearch.regex;
   }
+
   //phân trang
   const countProducts = await Product.countDocuments({
     ...find
@@ -30,9 +31,10 @@ module.exports.index = async (req, res) => {
     countProducts
   );
   //end phân trang
+
   //sort 
   let sort = {}
-  
+
   if (req.query.sortKey && req.query.sortValue) {
     sort[req.query.sortKey] = req.query.sortValue;
   } else {
@@ -153,7 +155,6 @@ module.exports.create = async (req, res) => {
   })
 }
 
-
 //[POST] admin/products/create
 
 module.exports.createPost = async (req, res) => {
@@ -228,7 +229,6 @@ module.exports.editPatch = async (req, res) => {
   res.redirect(`${systemConfig.prefixAdmin}/products/edit/:id`);
 
 }
-
 
 //[GET] admin/products/details/:id
 module.exports.details = async (req, res) => {
