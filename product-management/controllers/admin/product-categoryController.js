@@ -1,24 +1,30 @@
 const productCategory = require("../../models/productCategoryModel.js")
 const systemConfig = require("../../config/system")
+const CreateTree = require("../../helpers/createTree.js")
 module.exports.index = async (req, res) => {
   let find = {
     deleted: false,
   }
-  const records = await productCategory.find({
-    ...find
-  })
+  
+  const records = await productCategory.find({...find})
+  const newRecords = CreateTree.Tree(records);
   res.render('admin/pages/product-category/index', {
     pageTitle: 'Quản Lý Danh Mục Sản Phẩm',
-    records: records
+    records: newRecords
   });
 }
 
 //[POST] admin/products-category/create
 module.exports.create = async (req, res) => {
-  
+  let find = {
+    deleted: false,
+  }
+  const records = (await productCategory.find(find));
+  const newRecords = CreateTree.Tree(records);
+  console.log(newRecords)
   res.render('admin/pages/product-category/create', {
     pageTitle: 'Taọ danh mục sản phẩm',
-    
+    records: newRecords
   });
 }
 
