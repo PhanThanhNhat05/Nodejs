@@ -1,6 +1,7 @@
 const productCategory = require("../../models/productCategoryModel.js")
 const systemConfig = require("../../config/system")
 const CreateTree = require("../../helpers/createTree.js")
+const ProductCategory = require("../../models/productCategoryModel.js")
 module.exports.index = async (req, res) => {
   let find = {
     deleted: false,
@@ -14,7 +15,7 @@ module.exports.index = async (req, res) => {
   });
 }
 
-//[POST] admin/products-category/create
+//[GET] admin/products-category/create
 module.exports.create = async (req, res) => {
   let find = {
     deleted: false,
@@ -39,5 +40,40 @@ module.exports.createPost = async (req, res) => {
   const record = new productCategory(req.body);
   await record.save();
   res.redirect(`${systemConfig.prefixAdmin}/products-category/`);
+  
+}
+
+//[GET] admin/products-category/edit/:id
+module.exports.edit = async (req, res) => {
+  try {
+     const id = req.params.id;
+  const data = await ProductCategory.findOne({
+    _id: id,
+    deleted: false
+  })
+   const records = (await productCategory.find({
+    deleted: false
+   }));
+  console.log(records)
+  const newRecords = CreateTree.Tree(records);
+  res.render('admin/pages/product-category/edit', {
+    pageTitle: 'Chỉnh sửa danh mục sản phẩm',
+    records: newRecords,
+    data: data
+  });
+  } catch (error) {
+    res.redirect(`${systemConfig.prefixAdmin}/products-category`)
+  }
+ 
+}
+
+//[PATCH] admin/products-category/editPatch/:id
+module.exports.editPatch = async (req, res) => {
+  const id = req.params.id;
+  req.body.position = parseInt(req.body.position)
+  await productCategory.updateOne({
+    _id: id
+  }, req.body)
+ res.redirect(`${systemConfig.prefixAdmin}/products-category`)
   
 }

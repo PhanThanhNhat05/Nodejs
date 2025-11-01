@@ -3,6 +3,8 @@ const filterStatusHelper = require('../../helpers/filterStatus');
 const searchgHelper = require('../../helpers/search');
 const paginationHelper = require('../../helpers/pagination');
 const systemConfig = require("../../config/system")
+const CreateTree = require("../../helpers/createTree.js")
+const ProductCategory = require("../../models/productCategoryModel.js")
 // [GET] admin/products
 module.exports.index = async (req, res) => {
   // console.log(req.query.status)
@@ -150,8 +152,14 @@ module.exports.deleteItem = async (req, res) => {
 //[GET] admin/products/create
 
 module.exports.create = async (req, res) => {
+   let find = {
+    deleted: false,
+  }
+  const category = (await ProductCategory.find(find));
+  const newCategory = CreateTree.Tree(category);
   res.render("admin/pages/products/create", {
     pageTitle: "Trang tao san pham",
+    category: newCategory
   })
 }
 
