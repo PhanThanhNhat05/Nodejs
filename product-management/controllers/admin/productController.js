@@ -152,7 +152,7 @@ module.exports.deleteItem = async (req, res) => {
 //[GET] admin/products/create
 
 module.exports.create = async (req, res) => {
-   let find = {
+  let find = {
     deleted: false,
   }
   const category = (await ProductCategory.find(find));
@@ -202,9 +202,14 @@ module.exports.edit = async (req, res) => {
     const product = await Product.findOne(find);
     console.log(product)
 
+    const category = (await ProductCategory.find({
+      deleted: false,
+    }));
+    const newCategory = CreateTree.Tree(category);
     res.render("admin/pages/products/edit", {
       pageTitle: "sua san pham",
-      product: product
+      product: product,
+      category: newCategory
     })
   } catch (error) {
     req.flash("errorid", `Đường dẫn này không tồn tại`);
